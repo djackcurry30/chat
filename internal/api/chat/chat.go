@@ -34,6 +34,24 @@ import (
 	"github.com/openimsdk/tools/log"
 )
 
+// Api 聊天API处理器结构体
+// 包含各种客户端依赖，用于处理API请求
+
+type Api struct {
+	*util.Api                 // 基础API工具
+	chatClient  chatpb.ChatClient     // 聊天RPC客户端
+	adminClient admin.AdminClient     // 管理员RPC客户端
+	imApiCaller imapi.CallerInterface // OpenIM API调用器
+}
+
+// New 创建聊天API处理器实例
+// 参数：
+//   - chatClient: 聊天RPC客户端
+//   - adminClient: 管理员RPC客户端
+//   - imApiCaller: OpenIM API调用器
+//   - api: 基础API工具
+// 返回值：
+//   - *Api: 聊天API处理器实例
 func New(chatClient chatpb.ChatClient, adminClient admin.AdminClient, imApiCaller imapi.CallerInterface, api *util.Api) *Api {
 	return &Api{
 		Api:         api,
@@ -41,13 +59,6 @@ func New(chatClient chatpb.ChatClient, adminClient admin.AdminClient, imApiCalle
 		adminClient: adminClient,
 		imApiCaller: imApiCaller,
 	}
-}
-
-type Api struct {
-	*util.Api
-	chatClient  chatpb.ChatClient
-	adminClient admin.AdminClient
-	imApiCaller imapi.CallerInterface
 }
 
 // ################## ACCOUNT ##################
